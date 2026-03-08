@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Complaint Reports - Admin</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f7f9fc;
+      background: blur(10px);
+      height: 60%;
+    }
+    header {
+      background-color: #34495e;
+      color: #ecf0f1;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+    main {
+      max-width: 500px;
+      display: fixed;
+      margin: 2rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+    }
+    h2 {
+      color: #34495e;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+    .summary {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+    .summary div {
+      background: #e74c3c;
+      color: white;
+      flex: 1;
+      min-width: 150px;
+      padding: 1rem 0;
+      border-radius: 6px;
+      font-size: 1.3rem;
+      font-weight: bold;
+      text-align: center;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+    canvas {
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Admin - Complaint Reports</h1>
+    <div>Student Complaint Management System</div>
+  </header>
+
+  <main>
+    <h2>Complaint Summary</h2>
+    <div class="summary">
+      <div id="totalComplaints">Total Complaints: 0</div>
+      <div id="pendingComplaints">Pending: 0</div>
+      <div id="resolvedComplaints">Resolved: 0</div>
+      <div id="newComplaints">New Today: 0</div>
+    </div>
+
+    <h2>Complaints Status Chart</h2>
+    <canvas id="statusChart" width="200" height="150"></canvas>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const complaints = [
+      { status: 'Pending', date: '2025-09-18' },
+      { status: 'Resolved', date: '2025-09-19' },
+      { status: 'Pending', date: '2025-09-20' },
+      { status: 'Resolved', date: '2025-09-21' },
+      { status: 'New', date: '2025-09-22' },
+      { status: 'Resolved', date: '2025-09-22' },
+    ];
+
+    const total = complaints.length;
+    const pending = complaints.filter(c => c.status === 'Pending').length;
+    const resolved = complaints.filter(c => c.status === 'Resolved').length;
+    const newToday = complaints.filter(c => c.status === 'New').length;
+
+    document.getElementById('totalComplaints').textContent = `Total Complaints: ${total}`;
+    document.getElementById('pendingComplaints').textContent = `Pending: ${pending}`;
+    document.getElementById('resolvedComplaints').textContent = `Resolved: ${resolved}`;
+    document.getElementById('newComplaints').textContent = `New Today: ${newToday}`;
+
+    const ctx = document.getElementById('statusChart').getContext('2d');
+    const chart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Pending', 'Resolved', 'New'],
+        datasets: [{
+          label: 'Complaints Status',
+          data: [pending, resolved, newToday],
+          backgroundColor: [
+            '#e67e22',
+            '#27ae60',
+            '#2980b9'
+          ],
+          borderColor: '#fff',
+          borderWidth: 2,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              font: { size: 14 }
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                return `${context.label}: ${context.parsed}`;
+              }
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

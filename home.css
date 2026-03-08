@@ -1,0 +1,28 @@
+body {
+  background-color: #f5f7fa;
+}
+
+.navbar {
+  background-color: #343a40;
+}
+
+.navbar-brand,
+.nav-link {
+  color: #fff !important;
+}
+
+.hero {
+  padding: 60px 0;
+  background: linear-gradient(135deg, #007bff, #6610f2);
+  color: white;
+}
+
+.card {
+  border: none;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  transition: 0.3s ease-in-out;
+}
+
+.card:hover {
+  transform: scale(1.03);
+}
